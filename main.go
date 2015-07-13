@@ -15,9 +15,13 @@ func main() {
 
 	apiController := controllers.NewApiController(apiCollection)
 	cacheController := controllers.NewCacheController(apiCollection, cacheCollection)
+
 	router := httprouter.New()
 	router.GET("/api", apiController.GetApi)
 	router.GET("/api/:apikey", cacheController.GetAll)
+	router.GET("/api/:apikey/:key", cacheController.GetOne)
+	router.POST("/api/:apikey/:key", cacheController.Create)
+	router.PUT("/api/:apikey/:key", cacheController.Update)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
