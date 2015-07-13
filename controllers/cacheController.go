@@ -124,3 +124,25 @@ func (ac CacheController) Update(response http.ResponseWriter, request *http.Req
 
 	response.WriteHeader(200)
 }
+
+func (ac CacheController) Delete(response http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	apiKey := params.ByName("apikey")
+	api := model.Api{}
+	apiError := ac.apiCollection.FindId(apiKey).One(&api)
+	if apiError != nil {
+		response.WriteHeader(404)
+		return
+	}
+
+	cache := model.Cache{}
+	key := params.ByName("key")
+	cacheError := ac.cacheCollection.Find(bson.M{"api": apiKey, "key": key}).One(&cache)
+	if cache.Id == "" {
+		fmt.Println("Find cache error:", cacheError)
+		response.WriteHeader(404)
+		return
+	}
+
+	ac.cacheCollection.Remove(bson.M{"api": apiKey, "key": key})
+	response.WriteHeader(200)
+}

@@ -22,6 +22,7 @@ func main() {
 	router.GET("/api/:apikey/:key", cacheController.GetOne)
 	router.POST("/api/:apikey/:key", cacheController.Create)
 	router.PUT("/api/:apikey/:key", cacheController.Update)
+	router.DELETE("/api/:apikey/:key", cacheController.Delete)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
