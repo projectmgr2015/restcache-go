@@ -11,11 +11,11 @@ import (
 )
 
 type ApiController struct {
-	apiRepository *mgo.Collection
+	apiCollection *mgo.Collection
 }
 
-func NewApiController(apiRepository *mgo.Collection) *ApiController {
-	return &ApiController{apiRepository}
+func NewApiController(apiCollection *mgo.Collection) *ApiController {
+	return &ApiController{apiCollection}
 }
 
 func (ac ApiController) GetApi(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -23,7 +23,7 @@ func (ac ApiController) GetApi(w http.ResponseWriter, r *http.Request, p httprou
 	api := model.Api{
 		Key: uuid,
 	}
-	ac.apiRepository.Insert(api)
+	ac.apiCollection.Insert(api)
 	json, _ := json.Marshal(api)
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, "%s", json)

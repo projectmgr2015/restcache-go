@@ -11,10 +11,13 @@ import (
 func main() {
 	mongoSession := getSession()
 	apiCollection := mongoSession.DB("cache").C("api")
+	cacheCollection := mongoSession.DB("cache").C("cache")
 
 	apiController := controllers.NewApiController(apiCollection)
+	cacheController := controllers.NewCacheController(apiCollection, cacheCollection)
 	router := httprouter.New()
 	router.GET("/api", apiController.GetApi)
+	router.GET("/api/:apikey", cacheController.GetAll)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
