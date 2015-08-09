@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker run -p 8080:8080 restcache-go
+docker run -d -p 8080:8080 restcache-go
