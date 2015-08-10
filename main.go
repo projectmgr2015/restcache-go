@@ -9,9 +9,8 @@ import (
 )
 
 func main() {
-	mongoSession := getSession()
-	apiCollection := mongoSession.DB("cache").C("api")
-	cacheCollection := mongoSession.DB("cache").C("cache")
+	apiCollection := getSession().DB("cache").C("api")
+	cacheCollection := getSession().DB("cache").C("cache")
 
 	apiController := controllers.NewApiController(apiCollection)
 	cacheController := controllers.NewCacheController(apiCollection, cacheCollection)
